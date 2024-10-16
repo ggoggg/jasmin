@@ -90,6 +90,12 @@ class Send(Resource):
                     else:
                         short_message = updated_request.args[b'content'][0].encode('gsm0338', 'replace')
                     updated_request.args[b'content'][0] = short_message
+                elif updated_request.args[b'coding'][0] == b'8':
+                    if isinstance(updated_request.args[b'content'][0], bytes):
+                        short_message = updated_request.args[b'content'][0].decode().encode('utf-16be', 'replace')
+                    else:
+                        short_message = updated_request.args[b'content'][0].encode('utf-16be', 'replace')
+                    updated_request.args[b'content'][0] = short_message
                 else:
                     # Otherwise forward it as is
                     short_message = updated_request.args[b'content'][0]
